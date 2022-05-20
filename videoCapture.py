@@ -80,7 +80,7 @@ def FrameCapture(frame, Datavideo, thresholdFaces=6, stepFrame=10):
 if __name__ == '__main__':
     frameExpl = FrameCapture(video, Datavideo)
 
-# mostra algumas faces detectadas de exemplo
+# # mostra algumas faces detectadas de exemplo
 # fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(16, 16))
 # i = 0
 # for y in range(0, 2):
