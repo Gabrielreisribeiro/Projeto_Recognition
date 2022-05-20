@@ -10,7 +10,6 @@ video = "faces/videos/V1-GAB.mp4"
 
 # carrega arquivo binário contendo faces codificadas
 data_encoding = pickle.loads(open("face_encodings", "rb").read())
-print(data_encoding)
 # carrega vídeo do disco
 videoCaptureInput = cv2.VideoCapture(0)
 
@@ -47,26 +46,50 @@ while x:
         matches = fr.compare_faces(
             data_encoding["encodings"], encoding)
         facesdistaces = fr.face_distance(data_encoding["encodings"], encoding)
-
+        print(matches)
+        # print("separação")
+        # print(facesdistaces)
         # retorna o identificador da lista das faces da base que "batem" com a codificação verificada
         matchesId = [i for i, value in enumerate(
-            matches) if value == True]
-
+            matches)
+            if value == True]
+        print(matchesId)
+        # print("match")
+        # print(matchesId)
         # faz uma espécie de "votação": quem tiver mais codificações "próximas" das faces treinadas na base "ganha"
         counts = {}
+        # print("counts")
+        # print(counts)
+        # print("uniq")
+        # print(unique_names)
+        # print("names")
+        # print(names)
         for name in unique_names:
             counts[name] = 0
+            # print("nomes 1")
+            # print(name)
         for i in matchesId:
             name = data_encoding["names"][i]
             counts[name] += 1
-        name = max(counts, key=counts.get)
-        names.append(name)
+            # print("nomes 2")
+            # print(name)
+        if len(matchesId) == 0:
+            print(matchesId)
+            name = "Desconhecido"
 
+        names.append(name)
+        votacao = np.argmin(facesdistaces)
+        # print("names antes do ultimo for")
+        # print(names)
     # desenha o retângulo e escreve o nome da pessoa no frame
     for ((top, right, bottom, left), name) in zip(boxes, names):
+        # print("name que ta indo")
+        # print(name)
+        # print("namessss que ta idndo")
+        # print(names)
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 4)
         cv2.putText(frame, name, (left, top),
-                    cv2.FONT_HERSHEY_SIMPLEX, 4, (0, 255, 0), 4)
+                    cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 2)
 
     # converte o frame de volta pro formato do OpenCV (BGR)
     frame = cv2.cvtColor(frame, cv2.COLOR_RGB2BGR)

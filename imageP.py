@@ -9,13 +9,10 @@ import pickle
 from videoCapture import listdir, isfile, join, path, secondsVideo, activateVideoSecunds, os
 # padronizando imagens
 
-imgPath = "GAB/"
-faces_list = [i for i in listdir(imgPath) if isfile(join(imgPath, i))]
-name = imgPath[0:3]
-
 
 def generateEncodings(imgPath, name, knownEncodings, knownNames):
     for filename in os.listdir(imgPath):
+        print(filename)
         img = fr.load_image_file(imgPath + filename)
         boxes = fr.face_locations(img, model='cnn')
         encodings = fr.face_encodings(img, boxes)
@@ -25,11 +22,21 @@ def generateEncodings(imgPath, name, knownEncodings, knownNames):
             knownNames.append(name)
 
 
-Encoding = []
-Names = []
-generateEncodings(imgPath, name, Encoding, Names)
+knownEncodings = []
+knownNames = []
 
-data_encoding = {"encodings": Encoding, "names": Names}
+imgPath = "GAB/"
+faces_list = [i for i in listdir(imgPath) if isfile(join(imgPath, i))]
+name = imgPath[0:3]
+generateEncodings(imgPath, name, knownEncodings, knownNames)
+
+imgPath = "TFR/"
+faces_list = [i for i in listdir(imgPath) if isfile(join(imgPath, i))]
+name = imgPath[0:3]
+
+generateEncodings(imgPath, name, knownEncodings, knownNames)
+
+data_encoding = {"encodings": knownEncodings, "names": knownNames}
 
 f = open("face_encodings", "wb")
 f.write(pickle.dumps(data_encoding))
