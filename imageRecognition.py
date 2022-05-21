@@ -46,47 +46,32 @@ while x:
         matches = fr.compare_faces(
             data_encoding["encodings"], encoding)
         facesdistaces = fr.face_distance(data_encoding["encodings"], encoding)
-        print(matches)
+        # print(matches)
         # print("separação")
         # print(facesdistaces)
         # retorna o identificador da lista das faces da base que "batem" com a codificação verificada
         matchesId = [i for i, value in enumerate(
             matches)
             if value == True]
-        print(matchesId)
-        # print("match")
-        # print(matchesId)
-        # faz uma espécie de "votação": quem tiver mais codificações "próximas" das faces treinadas na base "ganha"
+        precisao = sum(facesdistaces)/len(facesdistaces)
+        votacao = np.argmin(facesdistaces)
+
         counts = {}
-        # print("counts")
-        # print(counts)
-        # print("uniq")
-        # print(unique_names)
-        # print("names")
-        # print(names)
         for name in unique_names:
             counts[name] = 0
-            # print("nomes 1")
-            # print(name)
         for i in matchesId:
             name = data_encoding["names"][i]
             counts[name] += 1
-            # print("nomes 2")
-            # print(name)
-        if len(matchesId) == 0:
-            print(matchesId)
-            name = "Desconhecido"
+            if(precisao <= 0.7):
+                name = data_encoding["names"][votacao]
+                names.append(name)
 
-        names.append(name)
-        votacao = np.argmin(facesdistaces)
-        # print("names antes do ultimo for")
-        # print(names)
+        if len(matchesId) == 0:
+            name = "Desconhecido"
+            names.append(name)
+
     # desenha o retângulo e escreve o nome da pessoa no frame
     for ((top, right, bottom, left), name) in zip(boxes, names):
-        # print("name que ta indo")
-        # print(name)
-        # print("namessss que ta idndo")
-        # print(names)
         cv2.rectangle(frame, (left, top), (right, bottom), (0, 255, 0), 4)
         cv2.putText(frame, name, (left, top),
                     cv2.FONT_HERSHEY_SIMPLEX, 2, (0, 255, 0), 2)

@@ -21,7 +21,7 @@ shape_predictor_filename = "shape_predictor_68_face_landmarks.dat"
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(shape_predictor_filename)
 # variaveis
-video = "faces/videos/V1-GAB.mp4"
+video = "faces/videos/KAREN.mp4"
 Datavideo = cv2.VideoCapture(video)
 
 # padronizando cor dos frames
@@ -35,12 +35,12 @@ def frameColor(frame):
 # salvando frames dos videos
 
 
-def FrameCapture(frame, Datavideo, thresholdFaces=6, stepFrame=10):
+def FrameCapture(frame, Datavideo, thresholdFaces=5, stepFrame=100):
     detectedFacesCounter = 0
     faces = []
     count = 0000
     success = 1
-    namePath = frame[16:19]
+    namePath = "KAREN"
     if not path.exists(namePath):
         makedirs(namePath)
     os.chdir(namePath)
@@ -68,11 +68,11 @@ def FrameCapture(frame, Datavideo, thresholdFaces=6, stepFrame=10):
             cv2.imwrite(namePath + '_' + fileNumber + ".jpg", faceCrop)
 
             # essa parte é só pra adicionar retângulo ao redor da face e marcações, pra exibir bonitinho depois
-            cv2.rectangle(video, (x, y), (x + w, y + h), (255, 255, 0), 4)
+            cv2.rectangle(video, (x, y), (x + w, y + h), (255, 255, 0), 5)
             landmarks = predictor(video, detection)
             for i in range(0, 68):
                 cv2.circle(video, (landmarks.part(i).x,
-                           landmarks.part(i).y), 4, (0, 0, 255), -1)
+                           landmarks.part(i).y), 5, (0, 0, 255), -1)
             faces.append(video)
         detectedFacesCounter += len(detections)
 

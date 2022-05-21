@@ -25,14 +25,14 @@ def generateEncodings(imgPath, name, knownEncodings, knownNames):
 knownEncodings = []
 knownNames = []
 
-imgPath = "GAB/"
+imgPath = "GABRIEL/"
 faces_list = [i for i in listdir(imgPath) if isfile(join(imgPath, i))]
-name = imgPath[0:3]
+name = imgPath[0:7]
 generateEncodings(imgPath, name, knownEncodings, knownNames)
 
-imgPath = "TFR/"
+imgPath = "KAREN/"
 faces_list = [i for i in listdir(imgPath) if isfile(join(imgPath, i))]
-name = imgPath[0:3]
+name = imgPath[0:5]
 
 generateEncodings(imgPath, name, knownEncodings, knownNames)
 
