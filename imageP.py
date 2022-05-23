@@ -30,7 +30,7 @@ faces_list = [i for i in listdir(imgPath) if isfile(join(imgPath, i))]
 name = imgPath[0:7]
 generateEncodings(imgPath, name, knownEncodings, knownNames)
 
-imgPath = "KAREN/"
+imgPath = "Aline/"
 faces_list = [i for i in listdir(imgPath) if isfile(join(imgPath, i))]
 name = imgPath[0:5]
 

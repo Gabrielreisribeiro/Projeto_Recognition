@@ -21,8 +21,9 @@ shape_predictor_filename = "shape_predictor_68_face_landmarks.dat"
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor(shape_predictor_filename)
 # variaveis
-video = "faces/videos/KAREN.mp4"
+video = "faces/videos/ALINE.mp4"
 Datavideo = cv2.VideoCapture(video)
+namePeople = "Aline"
 
 # padronizando cor dos frames
 
@@ -35,12 +36,12 @@ def frameColor(frame):
 # salvando frames dos videos
 
 
-def FrameCapture(frame, Datavideo, thresholdFaces=5, stepFrame=100):
+def FrameCapture(frame, Datavideo, thresholdFaces=800, stepFrame=10):
     detectedFacesCounter = 0
     faces = []
     count = 0000
     success = 1
-    namePath = "KAREN"
+    namePath = namePeople
     if not path.exists(namePath):
         makedirs(namePath)
     os.chdir(namePath)

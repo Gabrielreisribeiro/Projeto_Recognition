@@ -40,6 +40,7 @@ while x:
     encodings = fr.face_encodings(frame, boxes)
 
     names = []
+    limiar = 0.55
 
     # para cada codificação de faces encontrada
     for encoding in encodings:
@@ -57,18 +58,40 @@ while x:
         votacao = np.argmin(facesdistaces)
 
         counts = {}
-        for name in unique_names:
-            counts[name] = 0
-        for i in matchesId:
-            name = data_encoding["names"][i]
-            counts[name] += 1
-            if(precisao <= 0.7):
-                name = data_encoding["names"][votacao]
+# primeira forma defininndo um limiar de aceitação
+        if(precisao <= limiar):
+            name = data_encoding["names"][votacao]
+            names.append(name)
+            print(names)
+            print(precisao)
+        else:
+            if(precisao > limiar):
+                name = "Desconhecido"
                 names.append(name)
-
+                print(names)
+                print(precisao)
         if len(matchesId) == 0:
             name = "Desconhecido"
             names.append(name)
+
+        # for name in unique_names:
+        #     counts[name] = 0
+        # for i in matchesId:
+        #     name = data_encoding["names"][i]
+        #     if(precisao <= limiar):
+        #         name = data_encoding["names"][votacao]
+        #         names.append(name)
+        #         counts[name] += 1
+        # print(matchesId)
+        # print(precisao)
+        # if len(matchesId) == 0:
+        #     if (precisao > 0.65):
+        #         names.clear()
+        #         name = "Desconhecido"
+        #         names.append(name)
+        #         print(names)
+
+        # print(names)
 
     # desenha o retângulo e escreve o nome da pessoa no frame
     for ((top, right, bottom, left), name) in zip(boxes, names):
